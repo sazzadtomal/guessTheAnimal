@@ -1,10 +1,17 @@
 import { motion,AnimatePresence } from "framer-motion";
 import { Player} from "@lottiefiles/react-lottie-player";
-import { useState } from "react";
+import { useState,useEffect} from "react";
 
 const AnimalContainer = ({src,visible,dragOver,status,finished,clear}) => {
 
   const [guessed,setGuessed]=useState()
+
+
+    
+    useEffect(()=>{
+      setGuessed("?")
+    },[clear])
+
 
   const onDropHandler=(e)=>{
       const eventData=e.dataTransfer.getData("text")
@@ -33,7 +40,7 @@ const AnimalContainer = ({src,visible,dragOver,status,finished,clear}) => {
         <Player autoplay loop src={src.animation} className="w-16 h-16" />
       </motion.div>:" "}
     </AnimatePresence>
-     <div className={`${finished? guessed===src.name? "bg-emerald-400":"bg-rose-400":"bg-white" } flex justify-center items-center rounded-lg w-full h-16`} onDrop={onDropHandler} onDragOver={(e)=>dragOver(e)}>{guessed? guessed : "?"}</div>
+     <div className={`${ finished? guessed===src.name? "bg-emerald-400":"bg-rose-400":"bg-white" } flex justify-center items-center rounded-lg w-full h-16`} onDrop={onDropHandler} onDragOver={(e)=>dragOver(e)}>{guessed}</div>
    </motion.div>
   )
 }
