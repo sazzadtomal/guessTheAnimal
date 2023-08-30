@@ -40,7 +40,7 @@ const AnimalContainer = ({src,visible,dragOver,status,finished,clear}) => {
         <Player autoplay loop src={src.animation} className="w-16 h-16" />
       </motion.div>:" "}
     </AnimatePresence>
-     <div className={`${ finished? guessed===src.name? "bg-emerald-400":"bg-rose-400":"bg-white" } flex justify-center items-center rounded-lg w-full h-16`} onDrop={onDropHandler} onDragOver={(e)=>dragOver(e)}>{guessed}</div>
+     <div className={`${ finished? guessed===src.name? "bg-emerald-400":"bg-rose-400":"bg-white" } flex justify-center items-center rounded-lg w-full h-16 unselectable`} onDrop={onDropHandler} onDragOver={(e)=>dragOver(e)}>{guessed}</div>
    </motion.div>
   )
 }

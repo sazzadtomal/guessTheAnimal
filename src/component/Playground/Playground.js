@@ -2,7 +2,7 @@ import { useState } from "react";
 import AnimalContainer from "../AnimalContainer/AnimalContainer";
 import { AnimalsArray } from "../../assets/AnimalsArray";
 import { shuffle } from "../../Util/Shuffle";
-
+import ScoreHolder from "../Score/Score";
 const Playground = () => {
   
     const initialStatus={
@@ -22,9 +22,22 @@ const Playground = () => {
      const [placeHolder,setPlaceHolder]=useState(false)
      const [done,setDone]=useState(false)
      const [clear,setClear]=useState(false)
+     const [score,setScore]=useState()
    
    
+     const scoreHandler=()=>{
+
+       const value=Object.values(status).filter(v=>v).length*25
      
+       if(value===0){
+        setScore(prev=>"0")
+       }
+       else{
+        setScore(prev=>value) 
+       }
+     
+
+     }
    
    
      const dragStartHandler=(e,animal)=>{
@@ -40,13 +53,16 @@ const Playground = () => {
         setPlaceHolder(false)
         setPlaying(false)
         setDone(true)
+        scoreHandler()
      }
    
      const replayHandler=()=>{
+         setStatus(prev=>initialStatus)
          setClear(true)
          setVisible(false)
          setDone(false)
          setFinised(false)
+         setScore(prev=>0)
          setAnimals(prev=>shuffle(AnimalsArray))
    
      }
@@ -64,18 +80,24 @@ const Playground = () => {
   
   
 return (
+    <>
+    <ScoreHolder score={score}/>
     <div className="absolute flex flex-col gap-8 w-screen  h-screen justify-center items-center">
-    <div className="md:w-3/5 md:gap-8 box-border flex-wrap flex justify-center items-center w-full ">
+    <div className="md:mt-4 md:w-3/5 md:gap-8 box-border flex-wrap flex justify-center items-center w-full ">
           {animals.map(animal=>(<AnimalContainer clear={clear} finished={finished} status={setStatus} dragOver={dragOverHandler} name={animal.name} src={animal} visible={visible}  />))}   
-          {placeHolder ? <div  className=" flex justify-evenly items-center w-full rounded-full border mt-12 h-8">
-             {AnimalsArray.map(animal=>(<div onDragStart={(e)=>dragStartHandler(e,animal.name)} draggable="true" className="bg-white flex-grow mx-4 text-center rounded-full ">{animal.name}</div>))}
+          {placeHolder ? <div className="md:mt-4 mt-8 w-full flex flex-col gap-1">
+               <p className="unselectable text-center font-semibold text-white">Tap and hold to move</p>
+              <div  className=" flex justify-evenly items-center w-full rounded-full border h-8">
+                 {AnimalsArray.map(animal=>(<div onDragStart={(e)=>dragStartHandler(e,animal.name)} draggable="true" className="unselectable bg-white flex-grow mx-4 text-center rounded-full ">{animal.name}</div>))}
+              </div>
           </div>:" "}
    </div>
      
-     {!playing && !done ? <button onClick={playHandler} className="mt-12 md:w-1/3 lg:1/4 w-1/2 rounded-full p-2 box-border bg-white disabled:opacity-25">Start</button>:!done ?
-     <button onClick={doneHandler} className="mt-12 md:w-1/4 lg:1/5 w-1/3 rounded-full p-2 box-border bg-white disabled:opacity-25">Done</button> :
-     <button onClick={replayHandler} className="mt-12 md:w-1/4 lg:1/5 w-1/3 rounded-full p-2 box-border bg-white disabled:opacity-25">Start Again</button> }
+     {!playing && !done ? <button onClick={playHandler} className="unselectable mt-12 md:w-1/3 lg:1/4 w-1/2 rounded-full p-2 box-border bg-white disabled:opacity-25">Start</button>:!done ?
+     <button disabled={visible} onClick={doneHandler} className="unselectable mt-12 md:w-1/4 lg:1/5 w-1/3 rounded-full p-2 box-border bg-white disabled:opacity-25">Done</button> :
+     <button onClick={replayHandler} className="unselectable mt-12 md:w-1/4 lg:1/5 w-1/3 rounded-full p-2 box-border bg-white disabled:opacity-25">Start Again</button> }
  </div>
+ </>
   )
 }
 
