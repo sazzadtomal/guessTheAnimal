@@ -89,7 +89,9 @@ return (
           {placeHolder ? <div className="md:mt-4 mt-8 w-full flex flex-col gap-1">
                <p className="unselectable text-center font-semibold text-white">Tap and hold to move</p>
               <div  className=" flex justify-evenly items-center w-full rounded-full border h-8">
-                 {AnimalsArray.map(animal=>(<div  onDragStart={(e)=>dragStartHandler(e,animal.name)} draggable="true" className="unselectable bg-white flex-grow mx-4 text-center rounded-full ">{animal.name}</div>))}
+                 {AnimalsArray.map(animal=>(<div  onDragStart={(e)=>dragStartHandler(e,animal.name)} draggable="true" className="bg-white flex-grow mx-4 text-center rounded-full ">
+                  <p className="unselectable" >{animal.name}</p>
+                  </div>))}
               </div>
           </div>:" "}
    </div>
